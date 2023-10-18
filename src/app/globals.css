@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to bottom, #6e5494, #300066, #300066);
+  border-radius: 8px;
+}
