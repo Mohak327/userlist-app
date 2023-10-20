@@ -24,8 +24,10 @@ export const ThemedButton = ({ content, icon, onClick, styleClass }) => {
     <button
         type="button"
         onClick={onClick} 
-        className={styleClass ? styleClass : 'hover:scale-105 transition-transform bg-violet-700 hover:bg-violet-800 inline-flex items-center h-10 px-5 text-violet-100 transition-colors duration-150 rounded-lg focus:shadow-outline'}
-        style={{background: 'linear-gradient(to right, #6e5494, #300066, #300066)'}}
+        className={styleClass ? styleClass : 'h-12 hover:scale-105 transition-transform inline-flex items-center px-5 text-violet-100 transition-colors duration-150 rounded-lg focus:shadow-outline'}
+        style={{
+            // height: '2.5rem', ':hover': {transform: 'scale(1.05)'}, 
+            background: 'linear-gradient(to right, #6e5494, #300066, #300066)'}}
     >
         <div className="flex items-center space-x-2">
             {icon}

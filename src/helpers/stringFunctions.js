@@ -20,3 +20,7 @@ export function splitCompanies(string, separator) {
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function makeIntegerArray(size) {
+  return Array.from({ length: size }, (_, i) => i + 1); 
+}

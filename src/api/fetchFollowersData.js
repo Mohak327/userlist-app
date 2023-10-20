@@ -1,6 +1,6 @@
-export async function fetchFollowers(username) {
+export async function fetchFollowersData(username, category) {
 try {
-    const response = await fetch(`https://api.github.com/users/${username}/followers`);
+    const response = await fetch(`https://api.github.com/users/${username}/${category}`);
     const data = await response.json();
     return data;
 } catch (error) {

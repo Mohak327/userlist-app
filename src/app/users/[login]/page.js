@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchUserDetails } from "@/api/fetchUserDetails";
-import { PillButton } from "@/commons/buttons";
+import { PillButton, ThemedButton } from "@/commons/buttons";
 import { splitFullName, capitalizeFirstLetter, splitCompanies } from "@/helpers/stringFunctions";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import MailIcon from '@mui/icons-material/Mail';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import BookIcon from '@mui/icons-material/Book';
 import Modal from "@/commons/Modal";
+import UserRepos from "./userRepos";
+import UserFollows from "./userFollow";
 
 const clickableLink = (link) => {
   return (
@@ -70,26 +72,35 @@ const UserDetails = ({ params }) => {
     repositories: {
       count: public_repos,
       url: repos_url,
+      component: <UserRepos login={login} url={`${html_url}?tab=repositories`}/>
     },
     followers: {
       count: followers,
       url: followers_url,
+      component: <UserFollows login={login} url={`${html_url}?tab=followers`} category='followers'/>
     },
     following: {
       count: following,
       url: following_url,
+      component: <UserFollows login={login} url={`${html_url}?tab=following`} category='following'/>
     },
   };
 
   let modalUrl;
+  let modalComponent;
   switch (modalType) {
     case 'following':
     case 'followers':
     case 'repositories':
-      modalUrl = tabData[modalType].url;
-      break;
+      {
+        modalUrl = tabData[modalType].url;
+        modalComponent = tabData[modalType].component
+        break;
+      }
     default:
-      modalUrl = '';
+      {
+        modalUrl = '';
+      }
   }
 
 const companiesArray = splitCompanies(company, ', ');
@@ -107,7 +118,7 @@ console.log('companiesArray', companiesArray);
           className="mb-3 rounded-full object-cover"
         />
         <h2 className={`text-2xl font-semibold`}>{login} {type && `(${type})`}</h2>
-        {bio && <p className="italics">"{bio}"</p>}
+        {bio && <p className="italics">{`"${bio}"`}</p>}
         <p className="mb-2">{lastName}, {firstName}</p>
 
         <div className="mb-5 flex items-center justify-center gap-4 mt-3 lg:flex-row sm:flex-wrap lg:flex-nowrap lg:flex-wrap">
@@ -153,7 +164,9 @@ console.log('companiesArray', companiesArray);
           {isOpenModal && (
             <Modal
               title={capitalizeFirstLetter(modalType)}
-              body={clickableLink(modalUrl)}
+              body={
+                modalComponent ? modalComponent : clickableLink(modalUrl)
+              }
               open={isOpenModal}
               setIsOpen={closeModal}
             />
